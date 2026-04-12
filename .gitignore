@@ -1,0 +1,17 @@
+.env
+.venv/
+.cache/
+.tools/
+__pycache__/
+*.py[cod]
+*.log
+*.tsbuildinfo
+
+uploads/
+frontend/node_modules/
+frontend/dist/
+Ai/Audio_Model/*.mp4
+Ai/Audio_Model/*.pdf
+
+.DS_Store
+Thumbs.db

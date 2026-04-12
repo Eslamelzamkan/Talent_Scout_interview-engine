@@ -1,0 +1,16 @@
+.env
+.venv
+.cache
+.tools
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+frontend/node_modules
+frontend/dist
+uploads
+uvicorn.stdout.log
+uvicorn.stderr.log
+frontend.vite.stdout.log
+frontend.vite.stderr.log
