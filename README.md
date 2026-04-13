@@ -1,45 +1,46 @@
 # Interview Engine
 
-Interview Engine is a FastAPI + React application for interview screening. An HR user creates a job, an applicant uploads a CV and interview videos, and the system generates a scored report with transcript-based summaries, relevance scoring, English scoring, emotion analysis, and personality traits.
+Interview Engine is a FastAPI + React application that helps streamline interview screening workflows. An HR user can create a job with prompts, applicants can submit a CV and recorded answers, and the system produces a structured report intended to assist review (not automate hiring).
 
-## What It Does
+## Features
 
-- Create and review jobs with three interview prompts
-- Accept applicant CVs and one video answer per prompt
-- Run asynchronous scoring in the background
-- Show a report with:
+- Create and manage jobs with interview prompts
+- Accept applicant CV uploads and recorded responses
+- Run background processing for scoring and analysis
+- Generate a report with (depending on configuration):
   - overall score
-  - English score
+  - English/communication indicators
   - answer summaries
   - answer relevance
-  - emotion labels
-  - personality trait labels
+  - emotion and personality signals
 
-## Current Model Stack
+## Tech Stack
 
-- Video personality: custom X3D checkpoint in `Ai/Video_Model/X3D_Third_CheckPoint.pth`
-- Video emotion: DeepFace-based analyzer
-- Text personality: local BERT + per-trait models in `Ai/Text_Model/Models`
-- Audio English: original checkpoint when available, otherwise Hugging Face pronunciation fallback
-- LLM summaries/relevance: Gemini or Groq, selected from `.env`
+- Backend: FastAPI
+- Frontend: React + Vite
+- Background processing: async tasks
+- Storage: local uploads (dev)
+- AI providers: configurable via environment variables
 
-## Important Limitations
+> Note: Specific model weights/checkpoints and provider selection are intentionally not documented in detail here. See the code and configuration templates for supported options.
+
+## Important Notes
 
 - This is a decision-support prototype, not an autonomous hiring system.
-- Reports can be `partial` when fallback paths are used.
-- Free-tier LLM providers can rate-limit or exhaust quota mid-report.
-- If `Ai/Audio_Model/EnglishModel_weights_best_epoch.pth` is missing, English scoring uses the fallback pronunciation model rather than the original custom checkpoint.
-- Hiring decisions should not rely on the model output alone.
+- Outputs may be incomplete if optional models or external providers are unavailable.
+- Always include human review and follow applicable laws/policies when using AI in hiring contexts.
 
 ## Project Structure
 
-- `main.py`: FastAPI app setup and startup migrations
+- `main.py`: FastAPI app setup
 - `Hr/`, `Job/`, `User/`: API routes and service logic
-- `Ai/`: model wrappers, runtime helpers, media processing
+- `Ai/`: model wrappers and media processing
 - `frontend/`: React + Vite frontend
-- `uploads/`: applicant files served by FastAPI
+- `uploads/`: development upload directory (do not commit real applicant data)
 
-## Backend Setup
+## Setup (Local Development)
+
+### Backend
 
 Create a virtual environment and install dependencies:
 
@@ -48,7 +49,10 @@ python -m venv .venv
 .\.venv\Scripts\pip.exe install -r requirements.txt
 ```
 
-Fill `.env` from `.env.example` with your real database and LLM keys.
+Configure environment variables:
+
+- Copy `.env.example` to `.env`
+- Fill in your own database credentials and API keys
 
 Start the backend:
 
@@ -62,7 +66,7 @@ Backend URLs:
 - Docs: `http://127.0.0.1:8000/docs`
 - Health: `http://127.0.0.1:8000/health`
 
-## Frontend Setup
+### Frontend
 
 Install frontend dependencies:
 
@@ -83,48 +87,22 @@ Frontend URL:
 
 ## Docker Compose
 
-If you want a one-command local stack, use Docker Compose:
+For a one-command local stack:
 
 ```powershell
 docker compose up --build
 ```
 
-Services:
-
-- Postgres: `localhost:5433`
-- Backend API: `http://127.0.0.1:8000`
-- Frontend UI: `http://127.0.0.1:5173`
-
 Notes:
 
-- The compose stack reads your local `.env` file at runtime.
-- The backend overrides `POSTGRES_HOST=db` and `POSTGRES_PORT=5432` inside the container network.
-- `uploads/` and `.cache/` are mounted as volumes so applicant files and model downloads persist.
-- The frontend image is built with `VITE_API_BASE_URL=http://localhost:8000`. Change that build arg in `docker-compose.yml` if you want a different public backend URL.
-- The first backend run may take longer because model assets are downloaded into `.cache/`.
-
-## Result Quality
-
-The API and frontend now expose result quality:
-
-- `complete`: no known fallback path was used
-- `partial`: one or more model or LLM fallbacks were used
-- `failed`: scoring did not complete
-
-When a report is partial, the UI shows explicit warnings instead of presenting the output as fully reliable.
-
-
+- Docker reads your local `.env` at runtime.
+- The first run may take longer while dependencies/models are downloaded.
+- If you deploy, update any frontend API base URL configuration to match your environment.
 
 ## License
 
 This repository is released under the MIT License. See [LICENSE](LICENSE).
 
-Important:
-
-- The MIT license covers the code in this repository.
-- Third-party models, checkpoints, datasets, and API providers keep their own licenses and terms.
-- Do not assume downloaded model weights or private checkpoints are automatically redistributable under MIT.
-
 ## Disclaimer
 
-This repository is an AI-assisted interview analysis project for experimentation, demos, and portfolio use. It should not be treated as a final hiring authority, and it must not be used as the sole basis for employment decisions.
+This repository is provided for experimentation, demos, and portfolio use. It should not be treated as a final hiring authority. Use responsibly and ensure compliance with applicable employment and privacy regulations.
