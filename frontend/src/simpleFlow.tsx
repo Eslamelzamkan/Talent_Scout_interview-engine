@@ -63,6 +63,20 @@ const genderOptions = [
   },
 ];
 
+const candidateNamePlaceholderOptions = [
+  { first: "Maya", last: "Hassan" },
+  { first: "Omar", last: "Adel" },
+  { first: "Lina", last: "Fahmy" },
+  { first: "Karim", last: "Nabil" },
+  { first: "Sara", last: "Maher" },
+  { first: "Youssef", last: "Saleh" },
+];
+
+const candidateNamePlaceholder =
+  candidateNamePlaceholderOptions[
+    Math.floor(Math.random() * candidateNamePlaceholderOptions.length)
+  ] ?? { first: "Maya", last: "Hassan" };
+
 const defaultJobForm: JobFormState = {
   title: "",
   company: "",
@@ -893,7 +907,7 @@ export default function SimpleFlow() {
                     onChange={(value) =>
                       setCandidateForm((current) => ({ ...current, first_name: value }))
                     }
-                    placeholder="Nadine"
+                    placeholder={candidateNamePlaceholder.first}
                   />
                   <InputField
                     label="Last name"
@@ -901,7 +915,7 @@ export default function SimpleFlow() {
                     onChange={(value) =>
                       setCandidateForm((current) => ({ ...current, last_name: value }))
                     }
-                    placeholder="Elkady"
+                    placeholder={candidateNamePlaceholder.last}
                   />
                   <InputField
                     label="Email"

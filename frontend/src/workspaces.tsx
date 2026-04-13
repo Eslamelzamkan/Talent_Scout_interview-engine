@@ -22,6 +22,20 @@ import {
 
 const statusOptions = ["pending", "passed", "accepted", "rejected"];
 
+const candidateNamePlaceholderOptions = [
+  { first: "Maya", last: "Hassan" },
+  { first: "Omar", last: "Adel" },
+  { first: "Lina", last: "Fahmy" },
+  { first: "Karim", last: "Nabil" },
+  { first: "Sara", last: "Maher" },
+  { first: "Youssef", last: "Saleh" },
+];
+
+const candidateNamePlaceholder =
+  candidateNamePlaceholderOptions[
+    Math.floor(Math.random() * candidateNamePlaceholderOptions.length)
+  ] ?? { first: "Maya", last: "Hassan" };
+
 export function JobsWorkspace({
   busy,
   jobForm,
@@ -196,8 +210,8 @@ export function CandidatesWorkspace({
       <Panel eyebrow="Intake" title="Register a candidate">
         <form className="stack-form" onSubmit={handleCreateCandidate}>
           <div className="two-column">
-            <InputField label="First name" value={candidateForm.first_name} onChange={(value) => setCandidateForm((current) => ({ ...current, first_name: value }))} placeholder="Nadine" />
-            <InputField label="Last name" value={candidateForm.last_name} onChange={(value) => setCandidateForm((current) => ({ ...current, last_name: value }))} placeholder="Elkady" />
+            <InputField label="First name" value={candidateForm.first_name} onChange={(value) => setCandidateForm((current) => ({ ...current, first_name: value }))} placeholder={candidateNamePlaceholder.first} />
+            <InputField label="Last name" value={candidateForm.last_name} onChange={(value) => setCandidateForm((current) => ({ ...current, last_name: value }))} placeholder={candidateNamePlaceholder.last} />
             <InputField label="Email" value={candidateForm.email} onChange={(value) => setCandidateForm((current) => ({ ...current, email: value }))} placeholder="candidate@example.com" />
             <InputField label="Phone" value={candidateForm.phone} onChange={(value) => setCandidateForm((current) => ({ ...current, phone: value }))} placeholder="+20 100 000 0000" />
             <InputField label="Gender" value={candidateForm.gender} onChange={(value) => setCandidateForm((current) => ({ ...current, gender: value }))} placeholder="Female" />
