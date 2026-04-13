@@ -113,13 +113,7 @@ The API and frontend now expose result quality:
 
 When a report is partial, the UI shows explicit warnings instead of presenting the output as fully reliable.
 
-## Before Publishing Publicly
 
-- Keep `.env` out of version control
-- Rotate any keys that were ever pasted into chat or shared in screenshots
-- Verify the database credentials are not reused elsewhere
-- Prefer a stable paid LLM provider over a fragile free-tier quota
-- Add your own tests for the exact deployment path you plan to show
 
 ## License
 
